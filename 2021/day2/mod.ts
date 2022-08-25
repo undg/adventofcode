@@ -13,23 +13,26 @@ function parseInput(input: string): Inputs[] {
 interface Position {
   horizontal: number;
   depth: number;
+  aim: number;
 }
 function getPosition(inputs: Inputs[]): Position {
   let horizontal = 0;
   let depth = 0;
+  let aim = 0;
 
   for (const input of inputs) {
     if (input.direction === "forward") {
       horizontal = horizontal + input.value;
+      depth = depth + aim * input.value;
     }
     if (input.direction === "up") {
-      depth = depth - input.value;
+      aim = aim - input.value;
     }
     if (input.direction === "down") {
-      depth = depth + input.value;
+      aim = aim + input.value;
     }
   }
-  return { horizontal, depth };
+  return { horizontal, depth, aim };
 }
 
 const inputs = parseInput(inputData);
@@ -37,4 +40,4 @@ console.log(`inputs:\n`, inputs);
 const position = getPosition(inputs);
 console.log(`position:\n`, position);
 
-console.log(`⭐\n`, position.horizontal * position.depth)
+console.log(`⭐\n`, position.horizontal * position.depth);
