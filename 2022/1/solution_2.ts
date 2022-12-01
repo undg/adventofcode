@@ -26,10 +26,8 @@ const solution = (text: string) => {
     elf.reduce<number>(sumReducer, 0)
   );
 
-  const mostReducer = (acc: number, curr: number) => (acc < curr ? curr : acc)
-  const mostCallories: number = elvesCalloriesSum.reduce( mostReducer, 0);
-
   const sorted: number[] = elvesCalloriesSum.sort((a,b) => a>b ? 1 : -1)
+  const mostCallories = sorted.at(-1)
 
   const top3: number[] = sorted.slice(-3, sorted.length)
 
@@ -39,10 +37,10 @@ const solution = (text: string) => {
     elves,
     elvesMeals,
     elvesCalloriesSum,
-    mostCallories,
+    mostCallories, // part 1
     sorted,
     top3,
-    top3Sum,
+    top3Sum, // part 2
   };
 };
 
@@ -65,7 +63,7 @@ Deno.test("sorted", () => {
   assertEquals(test.sorted, [4000, 6000, 10000, 11000, 24000]);
 });
 
-Deno.test("most callories", () => {
+Deno.test("most callories (part 1)", () => {
   const test = solution(min);
   assertEquals(test.mostCallories, 24000);
 });
