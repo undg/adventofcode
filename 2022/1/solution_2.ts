@@ -9,30 +9,63 @@ In the example above, the top three Elves are the fourth Elf (with 24000 Calorie
 Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
 */
 
-// const text = await Deno.readTextFile("./min.txt");
-const text = await Deno.readTextFile('./input.txt')
+const min = await Deno.readTextFile("./min.txt");
+const input = await Deno.readTextFile("./input.txt");
 
-const elves: string[] = text.split("\n\n");
-const elvesMeals: number[][] = elves.map((elf) =>
-  elf
-    .split("\n")
-    .filter((callories) => !!callories)
-    .map((str) => +str)
-);
+const solution = (text: string) => {
+  const elves: string[] = text.split("\n\n");
+  const elvesMeals: number[][] = elves.map((elf) =>
+    elf
+      .split("\n")
+      .filter((callories) => !!callories)
+      .map((str) => +str)
+  );
 
-const elvesCalloriesSum: number[] = elvesMeals.map((elf) =>
-  elf.reduce<number>((agg, curr) => agg + curr, 0)
-);
+  const sumReducer = (agg: number, curr: number) => agg + curr
+  const elvesCalloriesSum: number[] = elvesMeals.map((elf) =>
+    elf.reduce<number>(sumReducer, 0)
+  );
 
-const mostCallories: number = elvesCalloriesSum.reduce(
-  (acc, curr) => (acc < curr ? curr : acc),
-  0
-);
+  const mostReducer = (acc: number, curr: number) => (acc < curr ? curr : acc)
+  const mostCallories: number = elvesCalloriesSum.reduce( mostReducer, 0);
 
-console.log(
-  "\ntext: ", text,
-  "\nelves: ", elves,
-  "\nelvesMeals: ", elvesMeals,
-  "\nelvesCalloriesSum: ", elvesCalloriesSum,
-  "\nmostCallories: ", mostCallories
-);
+  const sorted: number[] = elvesCalloriesSum.sort((a,b) => a>b ? 1 : -1)
+
+  const top3: number[] = sorted.slice(-3, sorted.length)
+
+  const top3Sum: number = top3.reduce(sumReducer, 0)
+  return {
+    text,
+    elves,
+    elvesMeals,
+    elvesCalloriesSum,
+    mostCallories,
+    sorted,
+    top3,
+    top3Sum,
+  };
+};
+
+// Fuck reading console log
+import { assertEquals } from "https://deno.land/std@0.167.0/testing/asserts.ts";
+
+Deno.test("sum top 3", () => {
+  const test = solution(min);
+  assertEquals(test.top3Sum, 45000);
+  console.log(solution(input).top3Sum)
+});
+
+Deno.test("top3", () => {
+  const test = solution(min);
+  assertEquals(test.top3, [10000, 11000, 24000]);
+});
+
+Deno.test("sorted", () => {
+  const test = solution(min);
+  assertEquals(test.sorted, [4000, 6000, 10000, 11000, 24000]);
+});
+
+Deno.test("most callories", () => {
+  const test = solution(min);
+  assertEquals(test.mostCallories, 24000);
+});
