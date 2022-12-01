@@ -50,7 +50,7 @@ import { assertEquals } from "https://deno.land/std@0.167.0/testing/asserts.ts";
 Deno.test("sum top 3", () => {
   const test = solution(min);
   assertEquals(test.top3Sum, 45000);
-  console.log(solution(input).top3Sum)
+  console.log('Part Two: ', solution(input).top3Sum)
 });
 
 Deno.test("top3", () => {
@@ -66,4 +66,5 @@ Deno.test("sorted", () => {
 Deno.test("most callories (part 1)", () => {
   const test = solution(min);
   assertEquals(test.mostCallories, 24000);
+  console.log('Part One: ', solution(input).mostCallories)
 });
