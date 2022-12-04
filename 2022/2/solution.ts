@@ -58,8 +58,8 @@ const solution = (text: string) => {
   }
 
   const rounds: { shape: Shape; orig: ShapeMeOrYou }[][] = text
+    .trim()
     .split("\n")
-    .filter((round) => !!round)
     .map((roundIn) => {
       const round = roundIn.split(" ") as ShapeMeOrYou[];
 
