@@ -1,5 +1,7 @@
 const min = await Deno.readTextFile("./min.txt");
 const input = await Deno.readTextFile("./input.txt");
+// console.log(`min:\n`, min)
+// console.log(`inpo:\n`, input)
 
 const shapeMy = {
   X: 1,
@@ -59,7 +61,7 @@ const solution = (text: string) => {
       if (round[1].shape === "paper" && round[0].shape === "rock")
         return { res: "win", me: round[1].orig, you: round[0].orig };
       if (round[1].shape === "scissor" && round[0].shape === "paper")
-        return { res: "loose", me: round[1].orig, you: round[0].orig };
+        return { res: "win", me: round[1].orig, you: round[0].orig };
 
       if (round[1].shape === "rock" && round[0].shape === "paper")
         return { res: "loose", me: round[1].orig, you: round[0].orig };
@@ -71,7 +73,8 @@ const solution = (text: string) => {
       return { res: "loose", me: round[1].orig, you: round[0].orig };
     })
     .map((round) => result[round.res] + shapeMy[round.me as ShapeMe]);
-  const partOne = undefined;
+
+  const partOne = scores.reduce((agg: number, curr) => agg + curr, 0);
   const partTwo = undefined;
   return {
     text,
@@ -123,30 +126,30 @@ Deno.test("3 rounds", () => {
 });
 
 // tests from spec
-// Deno.test(
-//   " In the first round, your opponent will choose Rock (A), and you should choose Paper (Y). This ends in a win for you with a score of 8 (2 because you chose Paper + 6 because you won). ",
-//   () => {
-//     assertEquals(test.partOne, 8);
-//   }
-// );
-//
-// Deno.test(
-//   " In the second round, your opponent will choose Paper (B), and you should choose Rock (X). This ends in a loss for you with a score of 1 (1 + 0). ",
-//   () => {
-//     assertEquals(test.partOne, 1);
-//   }
-// );
-//
-// Deno.test(
-//   "test The third round is a draw with both players choosing Scissors, giving you a score of 3 + 3 = 6. ",
-//   () => {
-//     assertEquals(test.partOne, 6);
-//   }
-// );
-//
-// Deno.test(
-//   " In this example, if you were to follow the strategy guide, you would get a total score of 15 (8 + 1 + 6). ",
-//   () => {
-//     assertEquals(test.partOne, 15);
-//   }
-// );
+Deno.test(
+  " In the first round, your opponent will choose Rock (A), and you should choose Paper (Y). This ends in a win for you with a score of 8 (2 because you chose Paper + 6 because you won). ",
+  () => {
+    assertEquals(test.scores[0], 8);
+  }
+);
+
+Deno.test(
+  " In the second round, your opponent will choose Paper (B), and you should choose Rock (X). This ends in a loss for you with a score of 1 (1 + 0). ",
+  () => {
+    assertEquals(test.scores[1], 1);
+  }
+);
+
+Deno.test(
+  "test The third round is a draw with both players choosing Scissors, giving you a score of 3 + 3 = 6. ",
+  () => {
+    assertEquals(test.scores[2], 6);
+  }
+);
+
+Deno.test(
+  " In this example, if you were to follow the strategy guide, you would get a total score of 15 (8 + 1 + 6). ",
+  () => {
+    assertEquals(test.partOne, 15);
+  }
+);
