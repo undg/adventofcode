@@ -53,24 +53,21 @@ const solution = (text: string) => {
 
   const scores = rounds
     .map((round): { res: Result; me: ShapeMeOrYou; you: ShapeMeOrYou } => {
-      if (round[1].shape === round[0].shape)
-        return { res: "draw", me: round[1].orig, you: round[0].orig };
+      const draw = round[1].shape === round[0].shape;
+      const win =
+        (round[1].shape === "rock" && round[0].shape === "scissor") ||
+        (round[1].shape === "paper" && round[0].shape === "rock") ||
+        (round[1].shape === "scissor" && round[0].shape === "paper");
 
-      if (round[1].shape === "rock" && round[0].shape === "scissor")
-        return { res: "win", me: round[1].orig, you: round[0].orig };
-      if (round[1].shape === "paper" && round[0].shape === "rock")
-        return { res: "win", me: round[1].orig, you: round[0].orig };
-      if (round[1].shape === "scissor" && round[0].shape === "paper")
-        return { res: "win", me: round[1].orig, you: round[0].orig };
+      const loose =
+        (round[1].shape === "rock" && round[0].shape === "paper") ||
+        (round[1].shape === "paper" && round[0].shape === "scissor") ||
+        (round[1].shape === "scissor" && round[0].shape === "rock");
 
-      if (round[1].shape === "rock" && round[0].shape === "paper")
-        return { res: "loose", me: round[1].orig, you: round[0].orig };
-      if (round[1].shape === "paper" && round[0].shape === "scissor")
-        return { res: "loose", me: round[1].orig, you: round[0].orig };
-      if (round[1].shape === "scissor" && round[0].shape === "rock")
-        return { res: "loose", me: round[1].orig, you: round[0].orig };
-
-      return { res: "loose", me: round[1].orig, you: round[0].orig };
+      if (win) return { res: "win", me: round[1].orig, you: round[0].orig };
+      if (loose) return { res: "loose", me: round[1].orig, you: round[0].orig };
+      if (draw) return { res: "draw", me: round[1].orig, you: round[0].orig };
+      return { res: "draw", me: round[1].orig, you: round[0].orig }; // expect to never happend
     })
     .map((round) => result[round.res] + shapeMy[round.me as ShapeMe]);
 
