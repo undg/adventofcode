@@ -1,32 +1,32 @@
 const min = await Deno.readTextFile("./min.txt");
 const input = await Deno.readTextFile("./input.txt");
 
+const shapeMy = {
+  X: 1,
+  Y: 2,
+  Z: 3,
+} as const;
+type ShapeMe = keyof typeof shapeMy;
+
+const shapeYou = {
+  A: 1,
+  B: 2,
+  C: 3,
+} as const;
+type ShapeYou = keyof typeof shapeYou;
+
+type Shape = "rock" | "paper" | "scissor";
+
+const result = {
+  loose: 0,
+  draw: 3,
+  win: 6,
+} as const;
+type Result = keyof typeof result;
+
+type ShapeMeOrYou = keyof typeof shapeMy | keyof typeof shapeYou;
+
 const solution = (text: string) => {
-
-  const shapeMy = {
-    X: 1,
-    Y: 2,
-    Z: 3,
-  } as const;
-  type ShapeMe = keyof typeof shapeMy;
-
-  const shapeYou = {
-    A: 1,
-    B: 2,
-    C: 3,
-  } as const;
-  type ShapeYou = keyof typeof shapeYou;
-
-  type Shape = "rock" | "paper" | "scissor";
-
-  const result = {
-    loose: 0,
-    win: 3,
-    draw: 6,
-  } as const;
-
-  type ShapeMeOrYou = keyof typeof shapeMy | keyof typeof shapeYou;
-
   function translate(key: ShapeMeOrYou) {
     const shape: Record<ShapeMeOrYou, Shape> = {
       A: "rock",
@@ -39,18 +39,46 @@ const solution = (text: string) => {
     return shape[key];
   }
 
-  const rounds: string[][] = text
+  const rounds: { shape: Shape; orig: ShapeMeOrYou }[][] = text
     .split("\n")
     .filter((round) => !!round)
-    .map(round=>round.split(' '))
+    .map((round) =>
+      (round.split(" ") as ShapeMeOrYou[]).map((shape) => ({
+        shape: translate(shape),
+        orig: shape,
+      }))
+    );
 
+  const scores = rounds
+    .map((round): { res: Result; me: ShapeMeOrYou; you: ShapeMeOrYou } => {
+      if (round[1].shape === round[0].shape)
+        return { res: "draw", me: round[1].orig, you: round[0].orig };
+
+      if (round[1].shape === "rock" && round[0].shape === "scissor")
+        return { res: "win", me: round[1].orig, you: round[0].orig };
+      if (round[1].shape === "paper" && round[0].shape === "rock")
+        return { res: "win", me: round[1].orig, you: round[0].orig };
+      if (round[1].shape === "scissor" && round[0].shape === "paper")
+        return { res: "loose", me: round[1].orig, you: round[0].orig };
+
+      if (round[1].shape === "rock" && round[0].shape === "paper")
+        return { res: "loose", me: round[1].orig, you: round[0].orig };
+      if (round[1].shape === "paper" && round[0].shape === "scissor")
+        return { res: "loose", me: round[1].orig, you: round[0].orig };
+      if (round[1].shape === "scissor" && round[0].shape === "rock")
+        return { res: "loose", me: round[1].orig, you: round[0].orig };
+
+      return { res: "loose", me: round[1].orig, you: round[0].orig };
+    })
+    .map((round) => result[round.res] + shapeMy[round.me as ShapeMe]);
   const partOne = undefined;
   const partTwo = undefined;
   return {
     text,
     rounds,
-    result,
     translate,
+    result,
+    scores,
     partOne,
     partTwo,
   };
@@ -64,9 +92,9 @@ console.log("Part One : ", partOne, "\nPart Two: ", partTwo);
 import { assertEquals } from "https://deno.land/std@0.167.0/testing/asserts.ts";
 
 const test = solution(min);
-// Deno.test("scored rounds", () => {
-//   assertEquals(test.scores, [8, 1, 6]);
-// });
+Deno.test("scored rounds", () => {
+  assertEquals(test.scores, [8, 1, 6]);
+});
 
 Deno.test("scored rounds", () => {
   assertEquals(test.translate("A"), "rock");
@@ -79,9 +107,18 @@ Deno.test("scored rounds", () => {
 
 Deno.test("3 rounds", () => {
   assertEquals(test.rounds, [
-    ["A", "Y"],
-    ["B", "X"],
-    ["C", "Z"],
+    [
+      { shape: "rock", orig: "A" },
+      { shape: "paper", orig: "Y" },
+    ],
+    [
+      { shape: "paper", orig: "B" },
+      { shape: "rock", orig: "X" },
+    ],
+    [
+      { shape: "scissor", orig: "C" },
+      { shape: "scissor", orig: "Z" },
+    ],
   ]);
 });
 
