@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-deno test solution.ts -A --watch
+deno test *_test.ts -A --watch
 
