@@ -1,5 +1,5 @@
 export const solution = (text: string) => {
-    const partOne = allMoves(parseStack(text), text)
+    const partOne = topFromStacks( allMoves(parseStack(text), text) )
     const partTwo = undefined
     return {
         text,
@@ -59,18 +59,19 @@ export function move(stack: string[][], moveTxt: string) {
     const move = parseMove(moveTxt)
     const elToMove = stack[move.from - 1].slice(0, move.count) // save firsn n elements
     stack[move.from - 1].splice(0, move.count) // and delete them from orig
-    stack[move.to - 1].splice(0,0,...elToMove) // and prepend them
+    stack[move.to - 1].splice(0, 0, ...elToMove) // and prepend them
     return stack
 }
 
-export function allMoves(stack: string[][], text: string) {
+export function allMoves(stackIn: string[][], text: string) {
     const moves = getMoves(text)
-    moves.forEach(moveTxt=>{
-        move(stack, moveTxt)
-    })
-    return stack
+    const stackOut = moves.reduce((stackPrev: string[][] | null, moveTxt) => {
+        if (stackPrev === null) return move(stackIn, moveTxt)
+        else return move(stackPrev, moveTxt)
+    }, null)
+    return stackOut as string[][]
 }
 
-export function topFromStacks(stack: string[][]) {
-    return 'dsf'
+export function topFromStacks(stackAll: string[][]) {
+    return stackAll.reduce((acc,curr)=>acc+curr[0],'')
 }

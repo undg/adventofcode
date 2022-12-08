@@ -122,16 +122,16 @@ Deno.test({
     fn() {
         assertEquals(
             allMoves([['N', 'Z'], ['D', 'C', 'M'], ['P']], test.text),
-            [['C'], ['M'], ['Z', 'N', 'D', 'P']]
+            [['M'], ['C'], ['D', 'N', 'Z', 'P']]
         )
     },
 })
 
-// Deno.test({
-//     name: 'PartOne solution',
-//     only: false,
-//     ignore: false,
-//     fn() {
-//         assertEquals(topFromStacks([['N', 'Z'], ['D', 'C', 'M'], ['P']]), 'NDP')
-//     },
-// })
+Deno.test({
+    name: 'PartOne solution',
+    only: false,
+    ignore: false,
+    fn() {
+        assertEquals(topFromStacks([['N', 'Z'], ['D', 'C', 'M'], ['P']]), 'NDP')
+    },
+})
