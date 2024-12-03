@@ -18,7 +18,6 @@ function sol1() {
 		let safe = increasing || decresing
 		if (safe) safeReports++
 	}
-
 	return safeReports
 }
 
@@ -54,5 +53,29 @@ function isDecreasing(arr) {
 	return safe
 }
 
-console.log(sol1())
+console.log('sol1:', sol1())
 
+function sol2() {
+	let safeReports = 0
+
+	for (const data of getData()) {
+		let increasing = isIncreasing(data)
+		let decresing = isDecreasing(data)
+		let safe = increasing || decresing
+
+		if (!safe) {
+			for (let i in data) {
+				const dumped = data.filter((_, idx) => +idx !== +i)
+				if (isIncreasing(dumped) || isDecreasing(dumped)) {
+					safe = true
+				}
+			}
+		}
+
+		if (safe) safeReports++
+	}
+
+	return safeReports
+}
+
+console.log('sol2:',sol2())
