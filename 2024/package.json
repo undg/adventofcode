@@ -1,10 +1,9 @@
 {
 	"type": "module",
-	"devDependencies": {
-		"chai": "^5.1.2",
-		"mocha": "^10.8.2"
+	"scripts": {
+		"test": "vitest"
 	},
-	"dependencies": {
-		"typescript": "^5.7.2"
+	"devDependencies": {
+		"vitest": "^2.1.8"
 	}
 }
