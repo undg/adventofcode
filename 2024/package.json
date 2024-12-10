@@ -4,6 +4,7 @@
 		"test": "vitest"
 	},
 	"devDependencies": {
+		"memfs": "^4.15.0",
 		"vitest": "^2.1.8"
 	}
 }
