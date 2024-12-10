@@ -1,6 +1,6 @@
 export default {
-	cache: false,
 	test: {
-		environment: "node",
+		watchExclude: ["**/node_modules/**", "**/dist/**"], // Skip these
 	},
+	assetsInclude: ["**/*.html"],
 }
