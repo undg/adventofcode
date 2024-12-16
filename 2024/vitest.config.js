@@ -4,5 +4,5 @@ export default defineConfig({
 	test: {
 		// watchExclude: ["**/node_modules/**", "**/dist/**"], // Skip these
 	},
-	// assetsInclude: ["**/*.html"],
+	assetsInclude: ["**/*.html"],
 })

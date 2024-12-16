@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw"
 import { setupServer } from "msw/node"
 
-import { crawl, createMatrix, fillMatrix, getLetter, getMax } from "../../aic/scratch/ai"
+import { crawl, createMatrix, fillMatrix, getLetter, getMax } from "./ai"
 import { expect, it } from "vitest"
 import { afterAll } from "vitest"
 import { beforeAll } from "vitest"
@@ -18,7 +18,7 @@ const url =
 	"https://docs.google.com/document/d/e/2PACX-1vRMx5YQlZNa3ra8dYYxmv-QIQ3YJe8tbI3kqcuC7lQiZm-CSEznKfN_HYNSpoXcZIV3Y_O3YoUB1ecq/pub"
 
 const html = fs.readFileSync(
-	join(__dirname, "__mocks__/fixtures/gd.html"),
+	join(__dirname, "../../__mocks__/fixtures/gd.html"),
 	"utf-8",
 )
 

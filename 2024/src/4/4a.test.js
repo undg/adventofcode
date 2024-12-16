@@ -1,17 +1,17 @@
 import { vol } from "memfs"
 import { describe, expect, it, vi } from "vitest"
 
-import { getData, horizontal } from "4a"
+import { getData, horizontal } from "./4a"
 import { beforeEach } from "vitest"
 
 vi.mock("node:fs")
 vi.mock("node:fs/promises")
 
-beforeEach(() => {
-	vol.reset()
-})
+	beforeEach(() => {
+		vol.reset()
+	})
 
-const simpleInput = `..X...
+	const simpleInput = `..X...
 .SAMX.
 .A..A.
 XMAS.S
