@@ -6,7 +6,7 @@ export function getData(file) {
 	return data.toString()
 }
 
-const xmas = ['x','m','a','s']
+const xmas = ['X','M','A','S']
 
 /**
  * @param txt {string}
@@ -14,6 +14,15 @@ const xmas = ['x','m','a','s']
  */
 export function line(txt) {
 	return 0
+}
+
+/**
+ * @param txt {string}
+ * @returns {string}
+ */
+export function stripLine(txt) {
+	const stripped = txt
+	return stripped
 }
 
 export function sol() {
