@@ -1,7 +1,7 @@
 import { vol } from "memfs"
 import { describe, expect, it, vi } from "vitest"
 
-import { getData, horizontal } from "./4a"
+import { getData, line } from "./4a"
 import { beforeEach } from "vitest"
 
 vi.mock("node:fs")
@@ -25,11 +25,6 @@ describe(`sol1`, () => {
 	})
 
 	it(`should found 0 XMAS`, () => {
-		const path = "/tmp/mock-file.txt"
-		vol.fromJSON({ [path]: "XXXX" }, "/tmp")
-
-		const test = horizontal(path)
-
-		expect(test).to.eql(1)
+		expect(line('xxx')).to.eql(0)
 	})
 })
