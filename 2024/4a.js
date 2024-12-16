@@ -48,6 +48,16 @@ export function getData(file) {
 	return data.toString()
 }
 
+const xmas = ['x','m','a','s']
+
+/**
+ * @param txt {string}
+ * @returns {number}
+ */
+export function horizontal(txt) {
+	return 1
+}
+
 export function sol() {
 	return ''
 }
