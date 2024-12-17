@@ -9,15 +9,6 @@ export function getData(file) {
 const XMAS = "XMAS"
 
 /**
- * @param txt {string}
- * @returns {number}
- */
-export function line(txt) {
-	const found = denoise(txt).split(XMAS)
-	return found.length - 1
-}
-
-/**
  * @param line {string}
  * @returns {string}
  */
@@ -52,4 +43,31 @@ export function denoise(line) {
 
 export function sol() {
 	return ""
+}
+
+/**
+ * @param txt {string}
+ * @returns {number}
+ */
+export function findInLine(txt) {
+	const found = denoise(txt).split(XMAS)
+	return found.length - 1
+}
+
+/**
+ * @param line {string}
+ * @returns {string}
+ */
+export function reverse(line) {
+	return line.split('').reverse().join('')
+}
+
+
+/**
+ * @param txt {string}
+ * @returns {number}
+ */
+export function findInLineReverse(txt) {
+	const found = reverse(denoise(txt)).split(XMAS)
+	return found.length - 1
 }
