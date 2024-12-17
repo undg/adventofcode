@@ -64,10 +64,55 @@ export function reverse(line) {
 
 
 /**
- * @param txt {string}
+ * @param line {string}
  * @returns {number}
  */
-export function findInLineReverse(txt) {
-	const found = reverse(denoise(txt)).split(XMAS)
+export function findInLineReverse(line) {
+	const found = reverse(denoise(line)).split(XMAS)
 	return found.length - 1
 }
+
+/**
+ * @param lines {string[]}
+ * @returns {string[]}
+ */
+export function cols2Lines(lines) {
+	const cols = []
+	lines.forEach((l,lineIdx)=> {
+		const line = l.split('')
+		line.forEach((char, charIdx)=>{
+			if(!cols[charIdx]) {
+				cols[charIdx] = []
+			}
+			cols[charIdx][lineIdx] = char
+		})
+	})
+	return cols.map(line => line.join(''))
+}
+
+/**
+ * @param lines {string[]}
+ * @returns {number}
+ */
+export function findInColumns(lines) {
+	const cols = cols2Lines(lines)
+	let cnt = 0
+	for(let col of cols) {
+		cnt += findInLine(col)
+	}
+	return cnt
+}
+
+/**
+ * @param lines {string[]}
+ * @returns {number}
+ */
+export function findInColumnsReverse(lines) {
+	const cols = cols2Lines(lines)
+	let cnt = 0
+	for(let col of cols) {
+		cnt += findInLineReverse(col)
+	}
+	return cnt
+}
+
