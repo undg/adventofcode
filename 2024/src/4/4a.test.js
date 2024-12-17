@@ -9,8 +9,10 @@ import {
 	reverse,
 	findInLineReverse,
 	cols2Lines,
-    findInColumns,
-    findInColumnsReverse,
+	findInColumns,
+	findInColumnsReverse,
+    left2right,
+    right2left,
 } from "./4a"
 
 vi.mock("node:fs")
@@ -104,7 +106,9 @@ describe(`findInColumns`, () => {
 		expect(findInColumns([".X..", ".M..", ".A..", ".S.."])).toEqual(1)
 	})
 	it(`should find two XMAS in column`, () => {
-		expect(findInColumns([".X..X", ".M...", ".A..M", ".S..A", "....S"])).toEqual(2)
+		expect(
+			findInColumns([".X..X", ".M...", ".A..M", ".S..A", "....S"]),
+		).toEqual(2)
 	})
 })
 
@@ -113,6 +117,67 @@ describe(`findInColumnsReverse`, () => {
 		expect(findInColumnsReverse([".S..", ".A..", ".M..", ".X.."])).toEqual(1)
 	})
 	it(`should find two XMAS in column`, () => {
-		expect(findInColumnsReverse([".S..S", ".A...", ".M..A", ".X..M", "....X"])).toEqual(2)
+		expect(
+			findInColumnsReverse([".S..S", ".A...", ".M..A", ".X..M", "....X"]),
+		).toEqual(2)
+	})
+})
+
+describe(`left2right()`, () => {
+	it(`should get first cell`, () => {
+		expect(
+			left2right([
+				//
+				"abc",
+				"123",
+				"xyz",
+			])[0],
+		).toEqual("x")
+	})
+	it(`should get full matrix`, () => {
+		expect(
+			left2right([
+				//
+				"abc",
+				"123",
+				"xyz",
+			]),
+		).toEqual([
+			//
+			"x",
+			"1y",
+			"a2z",
+			"b3",
+			"c",
+		])
+	})
+})
+describe(`right2left()`, () => {
+	it(`should get last top cell as first`, () => {
+		expect(
+			right2left([
+				//
+				"abc",
+				"123",
+				"xyz",
+			])[0],
+		).toEqual("c")
+	})
+	it(`should get full matrix`, () => {
+		expect(
+			right2left([
+				//
+				"abc",
+				"123",
+				"xyz",
+			]),
+		).toEqual([
+			//
+			"c",
+			"b3",
+			"a2z",
+			"1y",
+			"x",
+		])
 	})
 })
